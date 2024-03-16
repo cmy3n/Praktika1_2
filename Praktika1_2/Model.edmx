@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PunktVidachiZakazovModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ID_Client" />
+          </Key>
+          <Property Name="ID_Client" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientSurname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientMiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID_Order" />
+          </Key>
+          <Property Name="ID_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_Number" Type="int" Nullable="false" />
+          <Property Name="Products" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Order_Price" Type="int" Nullable="false" />
+          <Property Name="Arrival_DateTime" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrdersClients">
+          <Key>
+            <PropertyRef Name="ID_OrdersClients" />
+          </Key>
+          <Property Name="ID_OrdersClients" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Receiving_DateTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="Client_ID" Type="int" Nullable="false" />
+          <Property Name="Order_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__OrdersCli__Clien__60A75C0F">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ID_Client" />
+            </Principal>
+            <Dependent Role="OrdersClients">
+              <PropertyRef Name="Client_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrdersCli__Order__619B8048">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID_Order" />
+            </Principal>
+            <Dependent Role="OrdersClients">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PunktVidachiZakazovModelContainer">
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrdersClients" EntityType="Self.OrdersClients" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__OrdersCli__Clien__60A75C0F" Association="Self.FK__OrdersCli__Clien__60A75C0F">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="OrdersClients" EntitySet="OrdersClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrdersCli__Order__619B8048" Association="Self.FK__OrdersCli__Order__619B8048">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersClients" EntitySet="OrdersClients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PunktVidachiZakazovModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ID_Client" />
+          </Key>
+          <Property Name="ID_Client" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientMiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="OrdersClients" Relationship="Self.FK__OrdersCli__Clien__60A75C0F" FromRole="Clients" ToRole="OrdersClients" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ID_Order" />
+          </Key>
+          <Property Name="ID_Order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Number" Type="Int32" Nullable="false" />
+          <Property Name="Products" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Order_Price" Type="Int32" Nullable="false" />
+          <Property Name="Arrival_DateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="OrdersClients" Relationship="Self.FK__OrdersCli__Order__619B8048" FromRole="Orders" ToRole="OrdersClients" />
+        </EntityType>
+        <EntityType Name="OrdersClients">
+          <Key>
+            <PropertyRef Name="ID_OrdersClients" />
+          </Key>
+          <Property Name="ID_OrdersClients" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Receiving_DateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Client_ID" Type="Int32" Nullable="false" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__OrdersCli__Clien__60A75C0F" FromRole="OrdersClients" ToRole="Clients" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__OrdersCli__Order__619B8048" FromRole="OrdersClients" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK__OrdersCli__Clien__60A75C0F">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ID_Client" />
+            </Principal>
+            <Dependent Role="OrdersClients">
+              <PropertyRef Name="Client_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrdersCli__Order__619B8048">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="ID_Order" />
+            </Principal>
+            <Dependent Role="OrdersClients">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PunktVidachiZakazovEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" />
+          <EntitySet Name="OrdersClients" EntityType="Self.OrdersClients" />
+          <AssociationSet Name="FK__OrdersCli__Clien__60A75C0F" Association="Self.FK__OrdersCli__Clien__60A75C0F">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="OrdersClients" EntitySet="OrdersClients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrdersCli__Order__619B8048" Association="Self.FK__OrdersCli__Order__619B8048">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrdersClients" EntitySet="OrdersClients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PunktVidachiZakazovModelContainer" CdmEntityContainer="PunktVidachiZakazovEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="PunktVidachiZakazovModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
+                <ScalarProperty Name="ClientSurname" ColumnName="ClientSurname" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="ClientMiddleName" ColumnName="ClientMiddleName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="PunktVidachiZakazovModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ID_Order" ColumnName="ID_Order" />
+                <ScalarProperty Name="Order_Number" ColumnName="Order_Number" />
+                <ScalarProperty Name="Products" ColumnName="Products" />
+                <ScalarProperty Name="Order_Price" ColumnName="Order_Price" />
+                <ScalarProperty Name="Arrival_DateTime" ColumnName="Arrival_DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdersClients">
+            <EntityTypeMapping TypeName="PunktVidachiZakazovModel.OrdersClients">
+              <MappingFragment StoreEntitySet="OrdersClients">
+                <ScalarProperty Name="ID_OrdersClients" ColumnName="ID_OrdersClients" />
+                <ScalarProperty Name="Receiving_DateTime" ColumnName="Receiving_DateTime" />
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

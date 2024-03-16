@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PunktVidachiZakazovModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="ID_Client" />
+    </Key>
+    <Property Name="ID_Client" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ClientName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ClientMiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="OrdersClients" Relationship="Self.FK__OrdersCli__Clien__60A75C0F" FromRole="Clients" ToRole="OrdersClients" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="ID_Order" />
+    </Key>
+    <Property Name="ID_Order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Order_Number" Type="Int32" Nullable="false" />
+    <Property Name="Products" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Order_Price" Type="Int32" Nullable="false" />
+    <Property Name="Arrival_DateTime" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="OrdersClients" Relationship="Self.FK__OrdersCli__Order__619B8048" FromRole="Orders" ToRole="OrdersClients" />
+  </EntityType>
+  <EntityType Name="OrdersClients">
+    <Key>
+      <PropertyRef Name="ID_OrdersClients" />
+    </Key>
+    <Property Name="ID_OrdersClients" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Receiving_DateTime" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Client_ID" Type="Int32" Nullable="false" />
+    <Property Name="Order_ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK__OrdersCli__Clien__60A75C0F" FromRole="OrdersClients" ToRole="Clients" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK__OrdersCli__Order__619B8048" FromRole="OrdersClients" ToRole="Orders" />
+  </EntityType>
+  <Association Name="FK__OrdersCli__Clien__60A75C0F">
+    <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+    <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="ID_Client" />
+      </Principal>
+      <Dependent Role="OrdersClients">
+        <PropertyRef Name="Client_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrdersCli__Order__619B8048">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+    <End Role="OrdersClients" Type="Self.OrdersClients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="ID_Order" />
+      </Principal>
+      <Dependent Role="OrdersClients">
+        <PropertyRef Name="Order_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PunktVidachiZakazovEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clients" EntityType="Self.Clients" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" />
+    <EntitySet Name="OrdersClients" EntityType="Self.OrdersClients" />
+    <AssociationSet Name="FK__OrdersCli__Clien__60A75C0F" Association="Self.FK__OrdersCli__Clien__60A75C0F">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="OrdersClients" EntitySet="OrdersClients" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrdersCli__Order__619B8048" Association="Self.FK__OrdersCli__Order__619B8048">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrdersClients" EntitySet="OrdersClients" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
